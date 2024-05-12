@@ -7,3 +7,4 @@ sympy
 thread
 server
 pycryptodome
+cryptography

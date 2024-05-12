@@ -8,8 +8,12 @@ def hash_text(text, hash_type):
         return hashlib.md5(text.encode()).hexdigest()
     elif hash_type == "SHA-1":
         return hashlib.sha1(text.encode()).hexdigest()
+    elif hash_type == "SHA-224":
+        return hashlib.sha224(text.encode()).hexdigest()
     elif hash_type == "SHA-256":
         return hashlib.sha256(text.encode()).hexdigest()
+    elif hash_type == "SHA-384":
+        return hashlib.sha384(text.encode()).hexdigest()
     elif hash_type == "SHA-512":
         return hashlib.sha512(text.encode()).hexdigest()
 
@@ -19,8 +23,12 @@ def hash_file(file, hash_type):
         hasher = hashlib.md5()
     elif hash_type == "SHA-1":
         hasher = hashlib.sha1()
+    elif hash_type == "SHA-224":
+        hasher = hashlib.sha224()
     elif hash_type == "SHA-256":
         hasher = hashlib.sha256()
+    elif hash_type == "SHA-384":
+        hasher = hashlib.sha384()
     elif hash_type == "SHA-512":
         hasher = hashlib.sha512()
 
@@ -43,7 +51,7 @@ if option == "Text":
     text = st.text_input("Enter text to hash:")
     if text:
         # Ask the user to select the hash function
-        hash_type = st.selectbox("Choose a hash function:", ("MD5", "SHA-1", "SHA-256", "SHA-512"))
+        hash_type = st.selectbox("Choose a hash function:", ("MD5", "SHA-1", "SHA-224", "SHA-256", "SHA-384", "SHA-512"))
 
         # Hash the text using the selected hash function
         hashed_text = hash_text(text, hash_type)
@@ -55,7 +63,7 @@ elif option == "File":
     file = st.file_uploader("Upload a file to hash:", type=["txt", "pdf", "docx", "csv", "xlsx"])
     if file:
         # Ask the user to select the hash function
-        hash_type = st.selectbox("Choose a hash function:", ("MD5", "SHA-1", "SHA-256", "SHA-512"))
+        hash_type = st.selectbox("Choose a hash function:", ("MD5", "SHA-1", "SHA-224", "SHA-256", "SHA-384", "SHA-512"))
 
         # Hash the file contents using the selected hash function
         hashed_file = hash_file(io.BytesIO(file.read()), hash_type)
