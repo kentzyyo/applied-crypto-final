@@ -8,3 +8,4 @@ thread
 server
 pycryptodome
 cryptography
+Crypto
