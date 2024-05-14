@@ -20,6 +20,11 @@ def rc4_decrypt(ciphertext, key):
 # Main function to run the Streamlit app
 def main():
     st.title("RC4 Encryption App")  # Set the title of the Streamlit app
+    st.markdown(
+        """
+        RC4 means Rivest Cipher 4 invented by Ron Rivest in 1987 for RSA Security. It is a Stream Ciphers which operates on a stream of data byte by byte. RC4 stream cipher is one of the most widely used stream ciphers because of its simplicity and speed of operation. It is a variable key-size stream cipher with byte-oriented operations. It uses either 64 bit or 128-bit key sizes. It is generally used in applications such as Secure Socket Layer (SSL), Transport Layer Security (TLS), and also used in IEEE 802.11 wireless LAN std. 
+    """
+    )
 
     # Sidebar options for mode selection and key input
     mode = st.sidebar.radio("Mode", ("Encrypt Text", "Decrypt Text", "Encrypt File", "Decrypt File"))

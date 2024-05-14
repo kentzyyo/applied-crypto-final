@@ -6,6 +6,12 @@ from cryptography.exceptions import UnsupportedAlgorithm
 # Page Title
 st.title("RSA Cipher")
 
+st.markdown(
+        """
+        The Rivest-Shamir-Adleman (RSA) encryption algorithm is an asymmetric encryption algorithm that is widely used in many products and services. Asymmetric encryption uses a key pair that is mathematically linked to encrypt and decrypt data. A private and public key are created, with the public key being accessible to anyone and the private key being a secret known only by the key pair creator. With RSA, either the private or public key can encrypt the data, while the other key decrypts it. This is one of the reasons RSA is the most used asymmetric encryption algorithm.
+    """
+    )
+
 # Radio Buttons for Encryption/Decryption
 mode = st.radio("Mode", ("Encrypt", "Decrypt"))
 

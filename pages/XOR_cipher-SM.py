@@ -18,6 +18,11 @@ def display_binary_representation(data, label):
 
 # Title of the Streamlit app
 st.title("XOR Cipher Tool")
+st.markdown(
+        """
+        XOR Encryption is an encryption method used to encrypt data and is hard to crack by brute-force method, i.e generating random encryption keys to match with the correct one. 
+    """
+    )
 
 # Radio button for selecting input type (Text or File)
 input_type = st.radio("Input Type:", ["Text", "File"])

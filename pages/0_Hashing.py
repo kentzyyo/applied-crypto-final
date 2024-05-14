@@ -2,6 +2,7 @@ import streamlit as st
 import hashlib
 import io
 
+
 def hash_text(text, hash_type):
     # Hash the input text using the specified hash function
     if hash_type == "MD5":
@@ -42,6 +43,12 @@ def hash_file(file, hash_type):
 
 # Streamlit app
 st.title("Hashing Functions")
+
+st.markdown(
+        """
+        Hashing is the process of transforming any given key or a string of characters into another value. This is usually represented by a shorter, fixed-length value or key that represents and makes it easier to find or employ the original string.
+    """
+    )
 
 # Ask the user to input text or upload a file
 option = st.radio("Choose input method:", ("Text", "File"))
