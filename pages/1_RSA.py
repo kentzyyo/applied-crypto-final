@@ -1,7 +1,7 @@
 import streamlit as st
-from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.padding import PKCS7
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.exceptions import UnsupportedAlgorithm
 
 # Page Title
 st.title("RSA Cipher")
@@ -37,20 +37,35 @@ if st.button("Generate New Keys"):
 
 # Function to encrypt/decrypt message
 def process_message(message, key, mode):
-    if mode == "Encrypt":
-        public_key = serialization.load_pem_public_key(key.encode())
-        ciphertext = public_key.encrypt( message.encode(), PKCS7(128).padder()  # Add padding for security
-        )
-        return ciphertext
-    elif mode == "Decrypt":
-        private_key = serialization.load_pem_private_key(
-            key.encode(), password=None
-        )
-        plaintext = private_key.decrypt(
-            message,
-            PKCS7(128).unpadder()  # Remove padding
-        )
-        return plaintext.decode()
+    try:
+        if mode == "Encrypt":
+            public_key = serialization.load_pem_public_key(key.encode())
+            ciphertext = public_key.encrypt(
+                message.encode(),
+                padding.OAEP(
+                    mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                    algorithm=hashes.SHA256(),
+                    label=None
+                )
+            )
+            return ciphertext.hex()  # Return as hex string for display
+        elif mode == "Decrypt":
+            private_key = serialization.load_pem_private_key(
+                key.encode(), password=None
+            )
+            ciphertext_bytes = bytes.fromhex(message)  # Convert hex string to bytes
+            plaintext = private_key.decrypt(
+                ciphertext_bytes,
+                padding.OAEP(
+                    mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                    algorithm=hashes.SHA256(),
+                    label=None
+                )
+            )
+            return plaintext.decode()
+    except (ValueError, UnsupportedAlgorithm) as e:
+        st.error(f"An error occurred: {e}")
+        return None
 
 # When the "Process" button is clicked
 if st.button("Process"):
@@ -61,3 +76,22 @@ if st.button("Process"):
     else:
         # Handle invalid keys or messages
         st.error("Invalid key or message. Please check your input.")
+
+# Instructions to the user to ensure proper PEM formatting
+st.write("""
+## Instructions:
+1. Make sure your keys are in PEM format.
+2. A public key should look like:
+    ```
+    -----BEGIN PUBLIC KEY-----
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2u...
+    -----END PUBLIC KEY-----
+    ```
+3. A private key should look like:
+    ```
+    -----BEGIN PRIVATE KEY-----
+    MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKY...
+    -----END PRIVATE KEY-----
+    ```
+4. Ensure there are no extra spaces or newlines in the PEM data.
+""")
