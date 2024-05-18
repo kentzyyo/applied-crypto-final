@@ -18,7 +18,7 @@ st.write("""
 2. A public key should look like:
     ```
     -----BEGIN PUBLIC KEY-----
-    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2u...
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2u..
     -----END PUBLIC KEY-----
     ```
 3. A private key should look like:
